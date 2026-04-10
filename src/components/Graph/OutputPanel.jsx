@@ -14,9 +14,13 @@ const OutputPanel = ({ nodes, edges, mstEdges, totalCost }) => {
     const targetNode = nodes.find(n => n.id === edge.target);
     return (
       <div key={edgeId} style={{ padding: '0.5rem', background: 'var(--bg-card)', borderRadius: '0.5rem', marginBottom: '0.5rem', fontSize: '0.875rem' }}>
-        <span style={{ color: 'var(--text-secondary)' }}>Step {index + 1}:</span><br/>
-        <strong>{sourceNode?.name}</strong> <span style={{ color: 'var(--accent-primary)' }}>→</span> <strong>{targetNode?.name}</strong> 
-        <span style={{ float: 'right', color: 'var(--accent-success)' }}>{edge.weight.toFixed(1)} km</span>
+        <div style={{ color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>Step {index + 1}:</div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <strong>{sourceNode?.name}</strong> <span style={{ color: 'var(--accent-primary)' }}>→</span> <strong>{targetNode?.name}</strong> 
+          </div>
+          <span style={{ color: 'var(--accent-success)' }}>{edge.weight.toFixed(1)} km</span>
+        </div>
       </div>
     );
   });

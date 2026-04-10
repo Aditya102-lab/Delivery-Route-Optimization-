@@ -10,6 +10,7 @@ const GraphVisualizer = () => {
   const [mode, setMode] = useState('addNode'); // 'addNode', 'addEdge'
   const [selectedNodeId, setSelectedNodeId] = useState(null);
   const [activeProcessingNode, setActiveProcessingNode] = useState(null);
+  const [showOnlyMst, setShowOnlyMst] = useState(false);
   
   const [mstEdges, setMstEdges] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
@@ -163,6 +164,7 @@ const GraphVisualizer = () => {
     setMstEdges([]);
     setTotalCost(0);
     setActiveProcessingNode(null);
+    setShowOnlyMst(false);
 
     // Always start from Restaurant (node 0)
     let visited = new Set([nodes[0].id]);
@@ -222,6 +224,7 @@ const GraphVisualizer = () => {
       setMstEdges([]);
       setTotalCost(0);
       setSelectedNodeId(null);
+      setShowOnlyMst(false);
     }
   };
 
@@ -241,7 +244,10 @@ const GraphVisualizer = () => {
         runPrimsAlgorithm={runPrimsAlgorithm} 
         isAnimating={isAnimating} 
         nodes={nodes} 
-        edges={edges} 
+        edges={edges}
+        mstEdges={mstEdges}
+        showOnlyMst={showOnlyMst}
+        setShowOnlyMst={setShowOnlyMst}
       />
 
       <div className="viz-workspace" style={{ cursor: mode === 'addNode' ? 'crosshair' : 'default', minWidth: '500px' }}>
@@ -260,6 +266,8 @@ const GraphVisualizer = () => {
             if (!s || !t) return null;
             
             const isMst = mstEdges.includes(edge.id);
+            if (showOnlyMst && !isMst) return null;
+
             const mid = getMidpoint(edge.source, edge.target);
             
             return (
